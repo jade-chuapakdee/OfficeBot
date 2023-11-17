@@ -83,11 +83,11 @@ tray_menu.pack(pady=10)
 tray_menu.place(x = 365, y = 215)
 
 #confirm button
-confirm_button = tk.Button(root, text = "Confirm", command = confirm_button_click, width = 10, height = 1, bg = "#83c6d2", fg = "black", font=("Helvetica",16), borderwidth=1)
+confirm_button = tk.Button(root, text = "Confirm", command = confirm_button_click, width = 10, height = 1, bg = "#83c6d2", fg = "black", font=("Helvetica",16, "bold"), borderwidth=1)
 confirm_button.pack(pady=10)
 confirm_button.place(x = 215, y = 350)
 
-clear_button = tk.Button(root, text = "Clear", command = clear_button_click, width = 10, height = 1, bg = "#83c6d2", fg = "black", font=("Helvetica",16), borderwidth=1)
+clear_button = tk.Button(root, text = "Clear", command = clear_button_click, width = 10, height = 1, bg = "#83c6d2", fg = "black", font=("Helvetica",16,"bold"), borderwidth=1)
 clear_button.pack(pady=10)
 clear_button.place(x = 415, y = 350)
 
