@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import simpledialog
 
 class PageTwo(tk.Frame):
     def __init__(self, master):
@@ -13,8 +14,18 @@ class PageTwo(tk.Frame):
 
         def on_click_reject():
             #will define later
+            show_input_dialog()
             print("reject button clicked")
-
+            master.switch_frame("PageThree")
+        
+        def show_input_dialog():
+            result = simpledialog.askstring("Input", "Enter your reason:")
+            if result:
+                print("User entered:", result)
+                master.shared_reason.set(result)
+            else:
+                print("User canceled the input.")
+        
         label1_text = "Documents from: "
         label1 = tk.Label(self, text= label1_text,bg='#e6bb95' , font=("Helvetica",16))
         label1.place(x = 165, y = 50)

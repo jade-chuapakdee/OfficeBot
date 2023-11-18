@@ -3,11 +3,13 @@ import tkinter as tk
 from StartPage import StartPage
 from pageOne import PageOne
 from pageTwo import PageTwo
+from pageThree import PageThree
 
 pages = {
     "StartPage": StartPage, 
     "PageOne": PageOne, 
-    "PageTwo": PageTwo
+    "PageTwo": PageTwo,
+    "PageThree": PageThree
 }
 
 class SampleApp(tk.Tk):
@@ -18,6 +20,7 @@ class SampleApp(tk.Tk):
         self.resizable(False, False)
         self._frame = None
         self.switch_frame("StartPage")
+        self.shared_reason = tk.StringVar()
 
     def switch_frame(self, page_name):
         """Destroys current frame and replaces it with a new one."""
