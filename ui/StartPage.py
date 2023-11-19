@@ -44,6 +44,8 @@ class StartPage(tk.Frame):
         def confirm_button_click():
             # Your implementation here
             print("confirm button clicked")
+            master.shared_from.set(sender_option.get())
+            master.shared_tray.set(tray_option.get())
             master.switch_frame("PageTwo")
 
         def clear_button_click():

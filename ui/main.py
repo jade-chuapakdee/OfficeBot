@@ -20,7 +20,10 @@ class SampleApp(tk.Tk):
         self.resizable(False, False)
         self._frame = None
         self.switch_frame("StartPage")
+        
         self.shared_reason = tk.StringVar()
+        self.shared_from = tk.StringVar()
+        self.shared_tray = tk.StringVar()
 
     def switch_frame(self, page_name):
         """Destroys current frame and replaces it with a new one."""

@@ -26,11 +26,11 @@ class PageTwo(tk.Frame):
             else:
                 print("User canceled the input.")
         
-        label1_text = "Documents from: "
+        label1_text = "Documents from: " + master.shared_from.get()
         label1 = tk.Label(self, text= label1_text,bg='#e6bb95' , font=("Helvetica",16))
         label1.place(x = 165, y = 50)
 
-        label2_text = "tray number: "
+        label2_text = "tray number: " + master.shared_tray.get()
         label2 = tk.Label(self, text= label2_text,bg='#e6bb95' , font=("Helvetica",16))
         label2.place(x = 165, y = 130)
 
