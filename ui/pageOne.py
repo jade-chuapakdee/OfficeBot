@@ -1,5 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+import ast
 
 class PageOne(tk.Frame):
     def __init__(self, master):
@@ -69,7 +70,6 @@ class PageOne(tk.Frame):
         red_label.place(x=795, y=435)
         
         img = Image.open("ui/image/graph_750x421.png")
-        self.canvas.place(x=0, y=0)
         self.master = master
         # Bind the left mouse button click event to the callback function for debugging purpose
         # self.canvas.bind("<Button-1>", self.on_canvas_click)
@@ -81,7 +81,7 @@ class PageOne(tk.Frame):
         vertexes = {
             "a1" : [41.5, 210],
             "a2" : [100, 147],
-            "a3" : [102, 256],
+            "a3" : [100, 256],
             "a4" : [186, 147],
             "a5" : [185, 257],
             "b1" : [287, 147],
@@ -145,6 +145,8 @@ class PageOne(tk.Frame):
 
         # Insert the real path here
         Path = ['a1', 'a3', 'a4', 'a5', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c5']
+        Path = (list(ast.literal_eval(master.shared_path.get())))
+
 
         self.draw_path(Path, vertexes, edges, 0)  # Start drawing the path at index 0
 
