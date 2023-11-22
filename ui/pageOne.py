@@ -9,7 +9,7 @@ class PageOne(tk.Frame):
         self.canvas = tk.Canvas(self, width=750, height=500)
         self.canvas.pack()
         self.canvas.place(x=0, y=0)
-
+        self.master = master
         # Bind the left mouse button click event to the callback function for debugging purpose
         # self.canvas.bind("<Button-1>", self.on_canvas_click)
 
@@ -124,7 +124,7 @@ class PageOne(tk.Frame):
         fill = 'purple'
         arrow = tk.LAST
         arrowshape = (4, 4, 6)
-        delay = 100  # Adjust the delay as needed
+        delay = 500  # Adjust the delay as needed
 
         if has_arrow:
             self.canvas.create_line(x1, y1, x1, y1, width=width, fill=fill, arrow=arrow, arrowshape=arrowshape)
@@ -162,6 +162,10 @@ class PageOne(tk.Frame):
         self.canvas.create_oval(top_left_x, top_left_y, bottom_rigt_x, bottom_rigt_y,
                                  width=circle_outline_width,
                                  outline=circle_outline_color)
+        
+        if outline=='red':
+            self.after(3000, lambda: self.master.switch_frame("PageTwo"))
+        
 
     def create_line(self, x1, y1, x2, y2, has_arrow = True):
         width = 3
