@@ -1,10 +1,3 @@
-parent(john, jim).
-parent(john, ann).
-parent(jane, jim).
-parent(jane, ann).
-
-male(john).
-female(jane).
 %:-op(300, xfy, ->).
 %:-op(300, xfx, /).
 

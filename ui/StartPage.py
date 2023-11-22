@@ -55,7 +55,7 @@ class StartPage(tk.Frame):
                 master.shared_from.set(sender_option.get())
                 master.shared_tray.set(tray_option.get())
                 prolog = Prolog()
-                prolog.consult('ui/prolog/my_bellman.pl')
+                prolog.consult('prolog/my_bellman.pl')
                 src = master.shared_from.get().lower()
                 des = master.shared_destination.get().lower()
                 result = list(prolog.query(f'bf(5, {src}, {des}, Cost, Path)'))
