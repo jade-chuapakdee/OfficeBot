@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -39,14 +40,18 @@ class StartPage(tk.Frame):
         sender_option.set("Please enter your seat number")
         tray_option.set("Select empty tray")
 
-        # Rest of your code for labels, comboboxes, and buttons
+       
 
         def confirm_button_click():
-            # Your implementation here
-            print("confirm button clicked")
-            master.shared_from.set(sender_option.get())
-            master.shared_tray.set(tray_option.get())
-            master.switch_frame("PageTwo")
+           if destination_option.get() == "Please enter your destination" or sender_option.get() == "Please enter your seat number" or tray_option.get() == "Select empty tray":
+               messagebox.showwarning("Warning", "Please select all options")
+           else:
+                print("confirm button clicked")
+                master.shared_from.set(sender_option.get())
+                master.shared_tray.set(tray_option.get())
+                master.switch_frame("PageTwo")
+            
+           
 
         def clear_button_click():
             # Reset combobox options
