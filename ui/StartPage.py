@@ -46,7 +46,7 @@ class StartPage(tk.Frame):
             print("confirm button clicked")
             master.shared_from.set(sender_option.get())
             master.shared_tray.set(tray_option.get())
-            master.switch_frame("PageTwo")
+            master.switch_frame("PageOne")
 
         def clear_button_click():
             # Reset combobox options
@@ -106,6 +106,4 @@ class StartPage(tk.Frame):
         clear_button.pack(pady=10)
         clear_button.place(x = 415, y = 350)   
             
-        # tk.Label(self, text="This is the start page").pack(side="top", fill="x", pady=10)
-        # tk.Button(self, text="Open page one", command=lambda: master.switch_frame("PageOne")).pack()
-        # tk.Button(self, text="Open page two", command=lambda: master.switch_frame("PageTwo")).pack()
+       
