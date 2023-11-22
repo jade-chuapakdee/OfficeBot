@@ -40,17 +40,24 @@ class StartPage(tk.Frame):
         sender_option.set("Please enter your seat number")
         tray_option.set("Select empty tray")
 
-       
-
+    
         def confirm_button_click():
-           if destination_option.get() == "Please enter your destination" or sender_option.get() == "Please enter your seat number" or tray_option.get() == "Select empty tray":
-               messagebox.showwarning("Warning", "Please select all options")
-           else:
+            if (
+                destination_option.get() == "Please enter your destination"
+                or sender_option.get() == "Please enter your seat number"
+                or tray_option.get() == "Select empty tray"
+            ):
+                messagebox.showwarning("Warning", "Please select all options")
+            elif destination_option.get() == sender_option.get():
+                messagebox.showwarning("Warning", "Destination and sender seat cannot be the same")
+            else:
                 print("confirm button clicked")
                 master.shared_destination.set(destination_option.get())
                 master.shared_from.set(sender_option.get())
                 master.shared_tray.set(tray_option.get())
                 master.switch_frame("PageOne")
+
+            
             
            
 
