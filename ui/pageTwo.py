@@ -13,16 +13,18 @@ class PageTwo(tk.Frame):
             master.switch_frame("StartPage")
 
         def on_click_reject():
-            #will define later
             show_input_dialog()
             print("reject button clicked")
-            master.switch_frame("PageThree")
-        
+            # No need to switch frame here; it's already done in show_input_dialog
+            self.master.shared_reason.set(self.reason)
+            self.master.switch_frame("Reject")
+
         def show_input_dialog():
             result = simpledialog.askstring("Input", "Enter your reason:")
             if result:
                 print("User entered:", result)
                 master.shared_reason.set(result)
+                # master.switch_frame("pageThree")  # Move the switch_frame here
             else:
                 print("User canceled the input.")
         

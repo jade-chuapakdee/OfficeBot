@@ -16,7 +16,7 @@ class SampleApp(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self.title("Officebot")
-        self.geometry("750x500")
+        self.geometry("900x506")
         self.resizable(False, False)
         self._frame = None
         self.switch_frame("StartPage")
