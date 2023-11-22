@@ -22,6 +22,7 @@ class SampleApp(tk.Tk):
         self.switch_frame("StartPage")
         
         self.shared_reason = tk.StringVar()
+        self.shared_destination = tk.StringVar()
         self.shared_from = tk.StringVar()
         self.shared_tray = tk.StringVar()
 

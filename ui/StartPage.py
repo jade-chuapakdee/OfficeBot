@@ -47,9 +47,10 @@ class StartPage(tk.Frame):
                messagebox.showwarning("Warning", "Please select all options")
            else:
                 print("confirm button clicked")
+                master.shared_destination.set(destination_option.get())
                 master.shared_from.set(sender_option.get())
                 master.shared_tray.set(tray_option.get())
-                master.switch_frame("PageTwo")
+                master.switch_frame("PageOne")
             
            
 
