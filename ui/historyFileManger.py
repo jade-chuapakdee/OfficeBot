@@ -4,8 +4,8 @@ from datetime import datetime
 class HistoryFileManager:
     def __init__(self) -> None:
         self.file_path = "history/history.csv"
-        self.MAX_READ = 5
-        self.MAX_SAVE = 10
+        self.MAX_READ = 8
+        self.MAX_SAVE = 50
 
     def save_history(self, path, cost, status):
         # Read existing data from the file
