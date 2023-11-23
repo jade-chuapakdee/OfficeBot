@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 root = tk.Tk()
 root.title("First Page")
-root.geometry("750x500")
+root.geometry("900x506")
 root.resizable(False, False)
 root.configure(bg = "#e6bb95")
 

@@ -4,12 +4,14 @@ from StartPage import StartPage
 from pageOne import PageOne
 from pageTwo import PageTwo
 from pageThree import PageThree
+from pageReject import PageReject
 
 pages = {
     "StartPage": StartPage, 
     "PageOne": PageOne, 
     "PageTwo": PageTwo,
-    "PageThree": PageThree
+    "PageThree": PageThree,
+    "PageReject": PageReject
 }
 
 class SampleApp(tk.Tk):
@@ -24,6 +26,7 @@ class SampleApp(tk.Tk):
         self.shared_reason = tk.StringVar()
         self.shared_destination = tk.StringVar()
         self.shared_from = tk.StringVar()
+        self.shared_destination = tk.StringVar()
         self.shared_tray = tk.StringVar()
         self.shared_path = tk.StringVar()
 
