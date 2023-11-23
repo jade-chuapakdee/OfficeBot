@@ -16,21 +16,21 @@ class PageReject(tk.Frame):
         label_top.place(x=40, y=22)
 
         label1_text = "Your Package is"
-        label1 = tk.Label(self, text=label1_text, bg='#E5D0CC', fg="#444554", font=("Ubuntu", 28, "bold"))
-        label1.place(x=270, y=200)
+        label1 = tk.Label(self, text=label1_text, bg='#E5D0CC', fg="#444554", font=("Ubuntu", 26))
+        label1.place(x=240, y=200)
         
         label2_text = "REJECTED"
-        label2 = tk.Label(self, text=label2_text, bg='#E5D0CC', fg="red", font=("Ubuntu", 28, "bold"))
-        label2.place(x=490, y=200)
+        label2 = tk.Label(self, text=label2_text, bg='#E5D0CC', fg="red", font=("Ubuntu", 26))
+        label2.place(x=500, y=200)
 
         # label2
         label3_text = "Reason:  "
-        label3 = tk.Label(self, text=label3_text, bg='#E5D0CC', fg="#444554", font=("Ubuntu", 28, "bold"))
+        label3 = tk.Label(self, text=label3_text, bg='#E5D0CC', fg="#444554", font=("Ubuntu", 26))
         label3.place(x=300, y=260)
         
         labelReason_text = master.shared_reason.get()
-        labelReason = tk.Label(self, text=labelReason_text, bg='#E5D0CC', fg="red", font=("Ubuntu", 28, "bold"))
-        labelReason.place(x=420, y=260)
+        labelReason = tk.Label(self, text=labelReason_text, bg='#E5D0CC', fg="red", font=("Ubuntu", 26))
+        labelReason.place(x=440, y=260)
 
         document_form_label_text = tk.StringVar(self)
         tray_number_label_text = tk.StringVar(self)
