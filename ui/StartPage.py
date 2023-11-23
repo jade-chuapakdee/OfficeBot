@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+import my_prolog 
+
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -56,6 +58,11 @@ class StartPage(tk.Frame):
                 master.shared_destination.set(destination_option.get())
                 master.shared_from.set(sender_option.get())
                 master.shared_tray.set(tray_option.get())
+                src = master.shared_from.get().lower()
+                des = master.shared_destination.get().lower()
+                prolog = my_prolog.MyProlog()
+                path = prolog.getPath(src, des)
+                master.shared_path.set(value = path)
                 master.switch_frame("PageOne")
 
             

@@ -28,7 +28,7 @@ class SampleApp(tk.Tk):
         self.shared_from = tk.StringVar()
         self.shared_destination = tk.StringVar()
         self.shared_tray = tk.StringVar()
-        
+        self.shared_path = tk.StringVar()
 
     def switch_frame(self, page_name):
         """Destroys current frame and replaces it with a new one."""
