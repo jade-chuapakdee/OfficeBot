@@ -5,13 +5,15 @@ from pageOne import PageOne
 from pageTwo import PageTwo
 from pageReject import PageReject
 from historyPage import HistoryPage
+from returnPackagePage import ReturnPage
 
 pages = {
     "StartPage": StartPage, 
     "PageOne": PageOne, 
     "PageTwo": PageTwo,
     "PageReject": PageReject,
-    "HistoryPage": HistoryPage 
+    "HistoryPage": HistoryPage, 
+    "ReturnPage": ReturnPage
 }
 
 class SampleApp(tk.Tk):
