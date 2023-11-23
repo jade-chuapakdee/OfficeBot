@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import simpledialog
 import historyFileManger
 
-class PageTwo(tk.Frame):
+class Reached(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.pack(fill="both", expand=True)

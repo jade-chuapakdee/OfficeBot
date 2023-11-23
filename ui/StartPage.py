@@ -66,7 +66,7 @@ class StartPage(tk.Frame):
                 path = prolog.getPathDetails(src, des)
                 master.shared_path.set(value = path['Path'])
                 master.shared_cost.set(value = path['Cost'])
-                master.switch_frame("PageOne")
+                master.switch_frame("DeliverPage")
 
             
             

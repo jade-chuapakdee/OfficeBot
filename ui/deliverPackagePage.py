@@ -2,7 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import ast
 
-class PageOne(tk.Frame):
+class DeliverPackage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.pack(fill= "both", expand=True)
@@ -224,7 +224,7 @@ class PageOne(tk.Frame):
                                  outline=circle_outline_color)
         
         if outline=='red':
-            self.after(3000, lambda: self.master.switch_frame("PageTwo"))
+            self.after(3000, lambda: self.master.switch_frame("ReachedPage"))
         
 
     def create_line(self, x1, y1, x2, y2, has_arrow = True):
@@ -252,6 +252,6 @@ class PageOne(tk.Frame):
             print("],")
 
 if __name__ == "__main__":
-    app = PageOne()
+    app = DeliverPackage()
     app.mainloop()
 
