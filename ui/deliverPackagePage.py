@@ -237,19 +237,7 @@ class DeliverPackage(tk.Frame):
         else:
             self.canvas.create_line(x1, y1, x2, y2, width=width, fill=fill)
 
-    def on_canvas_click(self, event):
-        x, y = event.x, event.y
-
-        if self.temp % 2 == 0:
-            print("[",end="")
     
-        print(f" {x}, {y}", end="")
-        if self.temp % 1 == 0:
-            print("", end=",")
-        self.temp += 1
-        
-        if self.temp % 2 == 0:
-            print("],")
 
 if __name__ == "__main__":
     app = DeliverPackage()

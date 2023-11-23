@@ -56,7 +56,6 @@ class StartPage(tk.Frame):
             elif destination_option.get() == sender_option.get():
                 messagebox.showwarning("Warning", "Destination and sender seat cannot be the same")
             else:
-                print("confirm button clicked")
                 master.shared_destination.set(destination_option.get())
                 master.shared_from.set(sender_option.get())
                 master.shared_tray.set(tray_option.get())
