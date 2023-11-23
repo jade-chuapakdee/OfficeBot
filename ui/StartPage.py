@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import my_prolog 
+from PIL import Image, ImageTk
+
 
 class StartPage(tk.Frame):
     def __init__(self, master):
@@ -73,6 +75,9 @@ class StartPage(tk.Frame):
             destination_option.set(destination_list[0])
             sender_option.set(sender_seat_list[0])
             tray_option.set(tray_number_list[0])
+            
+        def history_button_click():
+            master.switch_frame("HistoryPage")
         
         top_frame = tk.Frame(bg="#7F7B82", width=900, height=100)   
         top_frame.place(x=0, y=0) 
@@ -135,7 +140,16 @@ class StartPage(tk.Frame):
         tray_menu.pack(pady=10)
         tray_menu.place(x = 420, y = 298)
 
-        tray_menu.config(font=('Ubuntu', 12),foreground="#444554")    
+        tray_menu.config(font=('Ubuntu', 12),foreground="#444554")
+        
+        self.history_icon_path = "ui/image/history_icon.png"
+        self.history_icon = Image.open(self.history_icon_path)
+        self.history_icon = ImageTk.PhotoImage(self.history_icon)
+
+        # Create the button using the image
+        history_button = tk.Button(self, image=self.history_icon, command=history_button_click, bg="#E5D0CC",bd=0,highlightthickness=0)
+        history_button.pack()
+        history_button.place(x=680, y=345)  
             
         #confirm button
         confirm_button = tk.Button(self, text = "Confirm", command = confirm_button_click, width = 12, height = 1, bg = "#BFACB5", fg = "#02FF3A", font=('Ubuntu',18, "bold"), border=2)

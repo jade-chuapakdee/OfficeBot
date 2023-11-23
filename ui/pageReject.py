@@ -26,24 +26,11 @@ class PageReject(tk.Frame):
         # label2
         label3_text = "Reason:  "
         label3 = tk.Label(self, text=label3_text, bg='#E5D0CC', fg="#444554", font=("Ubuntu", 26))
-        label3.place(x=300, y=260)
+        label3.place(x=310, y=260)
         
         labelReason_text = master.shared_reason.get()
         labelReason = tk.Label(self, text=labelReason_text, bg='#E5D0CC', fg="red", font=("Ubuntu", 26))
-        labelReason.place(x=440, y=260)
-
-        document_form_label_text = tk.StringVar(self)
-        tray_number_label_text = tk.StringVar(self)
-
-        document_form_label = tk.Label(self, textvariable=document_form_label_text, bg='#E5D0CC',
-                                       font=("Ubuntu", 12))
-        document_form_label.pack(pady=10)
-        document_form_label.place(x=420, y=176)
-
-        tray_number_label = tk.Label(self, textvariable=tray_number_label_text, bg='#E5D0CC',
-                                     font=("Ubuntu", 12))
-        tray_number_label.pack(pady=10)
-        tray_number_label.place(x=420, y=237)
+        labelReason.place(x=450, y=260)
 
         def go_back():
             master.switch_frame("StartPage")
