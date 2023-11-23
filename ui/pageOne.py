@@ -11,7 +11,14 @@ class PageOne(tk.Frame):
         self.canvas.place(x=0, y=80)
         
         top_frame = tk.Frame(bg="#7F7B82", width=900, height=100)   
-        top_frame.place(x=0, y=0) 
+        top_frame.place(x=0, y=0)
+        #will delete later
+        def on_click():
+            master.switch_frame("PageTwo")
+            
+        my_button = tk.Button(top_frame, text="Next", command=on_click)
+        my_button.pack()
+        my_button.place(x=800, y=50)
         
         label_top_text = "Package is on the way"
         label_top = tk.Label(top_frame, text= label_top_text,bg='#7F7B82' , fg = "#FFFFFF", font=('Ubuntu',32, "bold"))
