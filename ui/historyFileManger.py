@@ -1,7 +1,7 @@
 import csv, ast
 from datetime import datetime
 
-class HistorFileManager:
+class HistoryFileManager:
     def __init__(self) -> None:
         self.file_path = "history/history.csv"
         self.MAX_READ = 5

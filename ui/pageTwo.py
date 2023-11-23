@@ -16,7 +16,7 @@ class PageTwo(tk.Frame):
         document_form_label_text = tk.StringVar(self)
         tray_number_label_text = tk.StringVar(self)
 
-        file_manager = historyFileManger.HistorFileManager()
+        file_manager = historyFileManger.HistoryFileManager()
         path = master.shared_path.get()
         cost = master.shared_cost.get()
 
