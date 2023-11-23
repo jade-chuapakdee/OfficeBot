@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from pyswip import Prolog
-
-
+import my_prolog 
 
 class StartPage(tk.Frame):
     def __init__(self, master):
@@ -54,12 +52,11 @@ class StartPage(tk.Frame):
                 master.shared_destination.set(destination_option.get())
                 master.shared_from.set(sender_option.get())
                 master.shared_tray.set(tray_option.get())
-                prolog = Prolog()
-                prolog.consult('prolog/my_bellman.pl')
                 src = master.shared_from.get().lower()
                 des = master.shared_destination.get().lower()
-                result = list(prolog.query(f'bf(5, {src}, {des}, Cost, Path)'))
-                master.shared_path.set(value = result[0]['Path'])
+                prolog = my_prolog.MyProlog()
+                path = prolog.getPath(src, des)
+                master.shared_path.set(value = path)
                 master.switch_frame("PageOne")
             
            
