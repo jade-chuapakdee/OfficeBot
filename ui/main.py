@@ -3,15 +3,15 @@ import tkinter as tk
 from StartPage import StartPage
 from pageOne import PageOne
 from pageTwo import PageTwo
-from pageThree import PageThree
 from pageReject import PageReject
+from historyPage import HistoryPage
 
 pages = {
     "StartPage": StartPage, 
     "PageOne": PageOne, 
     "PageTwo": PageTwo,
-    "PageThree": PageThree,
-    "PageReject": PageReject
+    "PageReject": PageReject,
+    "HistoryPage": HistoryPage 
 }
 
 class SampleApp(tk.Tk):
@@ -21,12 +21,11 @@ class SampleApp(tk.Tk):
         self.geometry("900x506")
         self.resizable(False, False)
         self._frame = None
-        self.switch_frame("StartPage")
+        self.switch_frame("HistoryPage")
         
         self.shared_reason = tk.StringVar()
         self.shared_destination = tk.StringVar()
         self.shared_from = tk.StringVar()
-        self.shared_destination = tk.StringVar()
         self.shared_tray = tk.StringVar()
         self.shared_path = tk.StringVar()
 

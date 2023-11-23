@@ -72,8 +72,7 @@ class PageOne(tk.Frame):
         
         img = Image.open("ui/image/graph_750x421.png")
         self.master = master
-        # Bind the left mouse button click event to the callback function for debugging purpose
-        # self.canvas.bind("<Button-1>", self.on_canvas_click)
+        
 
         img = Image.open("ui/image/graph_750x421.png")
         self.background_image = ImageTk.PhotoImage(img)
