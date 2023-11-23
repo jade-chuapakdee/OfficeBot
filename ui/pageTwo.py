@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog
+import historyFileManger
 
 class PageTwo(tk.Frame):
     def __init__(self, master):
@@ -11,10 +12,18 @@ class PageTwo(tk.Frame):
         style = ttk.Style()
         style.theme_use("combostyle")
 
-        
-   
+        # Variables for labels
+        document_form_label_text = tk.StringVar(self)
+        tray_number_label_text = tk.StringVar(self)
+
+        file_manager = historyFileManger.HistoryFileManager()
+        path = master.shared_path.get()
+        cost = master.shared_cost.get()
+
         def on_click_accept():
             print("accept button clicked")
+            status = "Accepted"
+            file_manager.save_history(path, cost, status)
             master.switch_frame("StartPage")
 
         def on_click_reject():
@@ -22,8 +31,9 @@ class PageTwo(tk.Frame):
             if result:
                 print("User entered:", result)
                 master.shared_reason.set(result)
+                status = "Rejected"
+                file_manager.save_history(path, cost, status)
                 self.master.switch_frame("PageReject")
-                
             else:
                 print("User canceled the input.")
             print("reject button clicked")

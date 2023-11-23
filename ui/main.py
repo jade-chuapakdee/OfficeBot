@@ -23,11 +23,13 @@ class SampleApp(tk.Tk):
         self.geometry("900x506")
         self.resizable(False, False)
         self._frame = None
-        self.switch_frame("HistoryPage")
+        self.switch_frame("StartPage")
         
         self.shared_reason = tk.StringVar()
         self.shared_destination = tk.StringVar()
         self.shared_from = tk.StringVar()
+        self.shared_destination = tk.StringVar()
+        self.shared_cost = tk.StringVar()
         self.shared_tray = tk.StringVar()
         self.shared_path = tk.StringVar()
 

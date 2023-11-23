@@ -63,8 +63,9 @@ class StartPage(tk.Frame):
                 src = master.shared_from.get().lower()
                 des = master.shared_destination.get().lower()
                 prolog = my_prolog.MyProlog()
-                path = prolog.getPath(src, des)
-                master.shared_path.set(value = path)
+                path = prolog.getPathDetails(src, des)
+                master.shared_path.set(value = path['Path'])
+                master.shared_cost.set(value = path['Cost'])
                 master.switch_frame("PageOne")
 
             
