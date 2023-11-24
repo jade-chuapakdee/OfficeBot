@@ -49,5 +49,5 @@ Follow the instructions in the application:
 - `returnPackagePage.py` : This file is the page that displays the return path when the package is being rejected.
 - `StartPage.py` : This file is the start page of the program.
 - `history.csv` : This file contains the history of the deliveries.
-- `my_bellman.pl` : This file contains the prolog language of the Bellman-Ford algorithm.
+- `my_bellman.pl` : This file contains the prolog logic of the Bellman-Ford algorithm.
 
