@@ -4,7 +4,7 @@
 
 ## Introduction
 
-OfficeBot, a cutting-edge office assistant revolutionizing document delivery within the workplace. Powered by the Bellman-Ford algorithm, traditionally employed in network optimization, OfficeBot navigates the office space with precision, calculating the shortest paths for efficient document transfers. In this project we choose Python for GUI and Prolog for Ai logic.
+OfficeBot, a cutting-edge office assistant revolutionizing document delivery within the workplace. Powered by the Bellman-Ford algorithm, traditionally employed in network optimization, OfficeBot navigates the office space with precision, calculating the shortest paths for efficient document transfers.
 
 
 ## Requirements
@@ -34,11 +34,13 @@ Follow the instructions in the application:
 - Select Destination
 - Select Your Seat
 - Select the Tray Number
+- Click Confirm to accept the document
+- (Optional) Click the history icon to view the history of one or more deliveries.
 
 ## Files
 
 - `deliverPackagePage.py` : This file is the page that shows the shortest path that the robot is taking.
-- `historyFileManager.py` : This files is the file that manages history files.
+- `historyFileManager.py` : This files is the file that manages history files. 
 - `historyPage.py` : This file is the page that shows the history of the OffieBot.
 - `main.py` : This is the main file to run the file.
 - `my_prolog.py` : This file is a bridge between prolog and python files
