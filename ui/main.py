@@ -28,7 +28,6 @@ class SampleApp(tk.Tk):
         self.shared_reason = tk.StringVar()
         self.shared_destination = tk.StringVar()
         self.shared_from = tk.StringVar()
-        self.shared_destination = tk.StringVar()
         self.shared_cost = tk.StringVar()
         self.shared_tray = tk.StringVar()
         self.shared_path = tk.StringVar()

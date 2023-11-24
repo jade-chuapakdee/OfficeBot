@@ -31,7 +31,7 @@ class Reached(tk.Frame):
                 master.shared_reason.set(result)
                 status = "Rejected"
                 file_manager.save_history(path, cost, status)
-                self.master.switch_frame("PageReject")
+                self.master.switch_frame("ReturnPage")
             else:
                 print("User canceled the input.")
             
