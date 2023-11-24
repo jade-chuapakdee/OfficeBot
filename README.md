@@ -37,10 +37,13 @@ Follow the instructions in the application:
 
 ## Files
 
-- `main.py` : This is the main file to run the file. 
-- `StartPage.py` : This file is the start page of the program.
-- `pageOne.py` : This file is the page that shows the shortest path that the robot is taking.
-- `pageTwo.py` : This file is the page that shows the user that the package is delivered. 
-- `pageThree.py` : to be added
+- `deliverPackagePage.py` : This file is the page that shows the shortest path that the robot is taking.
+- `historyFileManager.py` : This files is the file that manages history files.
+- `historyPage.py` : This file is the page that shows the history of the OffieBot.
+- `main.py` : This is the main file to run the file.
+- `my_prolog.py` : This file is a bridge between prolog and python files
 - `pageReject.py` : This file is the page that shows the user that the docuement has been rejected and the reason of it.
+- `reachedPage.py` : This file is the page that shows the user that the package is delivered. 
+- `returnPackagePage.py` : This file is the page that displays the return path when package get reject
+- `StartPage.py` : This file is the start page of the program.
 
