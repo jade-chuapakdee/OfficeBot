@@ -10,7 +10,8 @@ OfficeBot, a cutting-edge office assistant revolutionizing document delivery wit
 ## Requirements
 
 - Python 3.x
-- SWI - Prolog
+- pyswip
+- Pillow
 
 
 ## How to run this project
