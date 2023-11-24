@@ -1,16 +1,16 @@
 import tkinter as tk
 
 from StartPage import StartPage
-from pageOne import PageOne
-from pageTwo import PageTwo
+from deliverPackagePage import DeliverPackage
+from reachedPage import Reached
 from pageReject import PageReject
 from historyPage import HistoryPage
 from returnPackagePage import ReturnPage
 
 pages = {
     "StartPage": StartPage, 
-    "PageOne": PageOne, 
-    "PageTwo": PageTwo,
+    "DeliverPage": DeliverPackage, 
+    "ReachedPage": Reached,
     "PageReject": PageReject,
     "HistoryPage": HistoryPage, 
     "ReturnPage": ReturnPage

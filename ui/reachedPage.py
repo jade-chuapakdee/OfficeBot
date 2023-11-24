@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import simpledialog
 import historyFileManger
 
-class PageTwo(tk.Frame):
+class Reached(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.pack(fill="both", expand=True)
@@ -21,7 +21,6 @@ class PageTwo(tk.Frame):
         cost = master.shared_cost.get()
 
         def on_click_accept():
-            print("accept button clicked")
             status = "Accepted"
             file_manager.save_history(path, cost, status)
             master.switch_frame("StartPage")
@@ -29,14 +28,13 @@ class PageTwo(tk.Frame):
         def on_click_reject():
             result = simpledialog.askstring("Input", "Enter your reason:")
             if result:
-                print("User entered:", result)
                 master.shared_reason.set(result)
                 status = "Rejected"
                 file_manager.save_history(path, cost, status)
                 self.master.switch_frame("PageReject")
             else:
                 print("User canceled the input.")
-            print("reject button clicked")
+            
 
         top_frame = tk.Frame(bg="#7F7B82", width=900, height=100)
         top_frame.place(x=0, y=0)
