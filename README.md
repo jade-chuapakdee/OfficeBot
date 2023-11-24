@@ -23,12 +23,12 @@ Clone the repository:
     
 Navigate to the project directory:
 ```bash
-  cd OfficeBot/ui
+  cd OfficeBot/
 ```
 
 Run the Python script:
 ```bash
-  python main.py
+  python ui\main.py 
 ```
 
 Follow the instructions in the application:
