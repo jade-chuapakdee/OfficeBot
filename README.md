@@ -4,7 +4,7 @@
 
 ## Introduction
 
-OfficeBot, a cutting-edge office assistant revolutionizing document delivery within the workplace. Powered by the Bellman-Ford algorithm, traditionally employed in network optimization, OfficeBot navigates the office space with precision, calculating the shortest paths for efficient document transfers.
+OfficeBot, a cutting-edge office assistant revolutionizing document delivery within the workplace. Powered by the Bellman-Ford algorithm, traditionally employed in network optimization, OfficeBot navigates the office space with precision, calculating the shortest paths for efficient document transfers. In this project we choose Python for GUI and Prolog for Ai logic.
 
 
 ## Requirements
