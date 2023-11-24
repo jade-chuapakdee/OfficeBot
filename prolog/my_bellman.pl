@@ -1,42 +1,92 @@
-%:-op(300, xfy, ->).
-%:-op(300, xfx, /).
+% Predicate to query 
+% ex. bellman_ford(1, a1, c2, Cost, Path) return the shortest path from a1 to c2 of graph 1
 
-g(
-	3,
-	[a,b,c,d,e,f,g,h],
-	[a->e/1, e->f/2, f->g/1, g->h/2,
-	a->b/2, b->c/1, c->d/2, d->h/1]
- ).
+bellman_ford(ID, Source, Destination, Cost, Path) :-
+	vertex(ID, Source),
+	vertex(ID, Destination),
+	retractall(shortest(ID, _)),
+	set_shortest(ID, null->Source/0),
+	edges(ID, Edges),
+	length(Edges, M),
+	loop(ID, M),
+	summarize_path(ID, Source, Destination, Cost, Path),
+	retractall(shortest(ID, _)),
+	!.
 
- g(
-	4,
-	[a1,b,c,d,e,f,g],
-	[a1->b/6, a1->c/5, a1->d/5,
-         b->e/(-1),
-         c->b/(-2), c->e/1,
-         d->c/(-2), d->f/(-1),
-         e->g/3,
-         f->g/3]
- ).
-g(6,
-    [az,bz,cz,ez],
+visited(ID, Vertex) :-
+	shortest(ID, _->Vertex/_).
 
-    [
-	az->bz/4,
-	az->cz/(-3),
-	cz->az/(4),
-	az->ez/7,
-	bz->ez/2,
-	bz->cz/(-2)
-			]
-).
-  g(
-	5,
+loop(_, 0) :- !.
+loop(ID, M) :-
+	M_NEXT is M - 1,
+	search_vertex(ID),
+	loop(ID, M_NEXT).
 
+search_vertex(ID) :-
+	vertices(ID, Vertices),
+	search_vertex(ID, Vertices).
+
+search_vertex(_, []) :- !.
+search_vertex(ID, [Vertex|Tail]) :-
+	visited(ID, Vertex),
+	update(ID, Vertex),
+	search_vertex(ID, Tail),
+	!.
+search_vertex(ID, [_|Tail]) :-
+	search_vertex(ID, Tail).
+
+set_shortest(ID, From->To/Cost) :-
+	retract(shortest(ID, From->To/_)),
+	asserta(shortest(ID, From->To/Cost)),
+	!.
+set_shortest(ID, From->To/Cost) :-
+	asserta(shortest(ID, From->To/Cost)).
+
+update(ID, Vertex) :-
+	findall(Vertex->To/Cost,
+	(
+		edges(ID, E),
+		member(Vertex->To/Cost, E)
+	), Adjacent),
+	update_path(ID, Vertex, Adjacent).
+
+update_path(_, _, []) :- !.
+update_path(ID, From, [From->To/Cost|Tail]) :-
+	shortest(ID, _->To/T_COST),
+	shortest(ID, _->From/F_COST),
+	P_COST is F_COST + Cost,
+	replace_record(ID, From->To, T_COST, P_COST),
+	update_path(ID, From, Tail),
+	!.
+update_path(ID, From, [From->To/Cost|Tail]) :-
+	shortest(ID, _->From/F_COST),
+	P_COST is F_COST + Cost,
+	set_shortest(ID, From->To/P_COST),
+	update_path(ID, From, Tail).
+
+replace_record(_, _, Old_cost, New_cost) :-
+	Old_cost =< New_cost,
+	!.
+replace_record(ID, From->To, Old_cost, New_cost) :-
+	New_cost < Old_cost,
+	set_shortest(ID, From->To/New_cost).
+
+summarize_path(ID, Source, Destination, Cost, Path) :-
+	shortest(ID, _->Destination/Cost),
+	join_path(ID, Source, [Destination], Path).
+
+join_path(_, Source, [Source|RAcc], [Source|RAcc]) :- !.
+join_path(ID, Source, Acc, Path) :-
+	[To|_] = Acc,
+	shortest(ID, From->To/_),
+	join_path(ID, Source, [From|Acc], Path).
+
+
+graph(
+	1,
 	[a1,a2,a3,a4,a5,
     b1,b2,b3,b4,b5,
     c1,c2,c3,c4,c5],
-
 	[   
 	a1->a2/2,
 	a1->a3/4,
@@ -68,95 +118,14 @@ g(6,
 			]
  ).
 
-g_vertices(Gid, Vertices) :-
-	g(Gid, Vertices, _).
 
-g_edges(Gid, Edges) :-
-	g(Gid, _, Edges).
+% Set up the graph
+vertices(ID, Vertices) :-
+	graph(ID, Vertices, _).
 
-g_vertex(Gid, Vertex) :-
-	g_vertices(Gid, Vertices),
+edges(ID, Edges) :-
+	graph(ID, _, Edges).
+
+vertex(ID, Vertex) :-
+	vertices(ID, Vertices),
 	member(Vertex, Vertices).
-
-%% Bellman-Ford
-
-% bf(+Gid, +Start, +Stop, ?Cost, -Path) (+Cost does not make sense, though)
-bf(Gid, Start, Stop, Cost, Path) :-
-	g_vertex(Gid, Start),
-	g_vertex(Gid, Stop),
-	retractall(bf_shortest(Gid, _)),
-	bf_set_shortest(Gid, nill->Start/0),
-	g_edges(Gid, Edges),
-	length(Edges, M),
-	bf_loop(Gid, M),
-	bf_path_summary(Gid, Start, Stop, Cost, Path),
-	retractall(bf_shortest(Gid, _)),
-	!.
-
-bf_set_shortest(Gid, From->To/Cost) :-
-	retract(bf_shortest(Gid, From->To/_)),
-	asserta(bf_shortest(Gid, From->To/Cost)),
-	!.
-bf_set_shortest(Gid, From->To/Cost) :-
-	asserta(bf_shortest(Gid, From->To/Cost)).
-
-bf_visited(Gid, Vertex) :-
-	bf_shortest(Gid, _->Vertex/_).
-
-bf_loop(_, 0) :- !.
-bf_loop(Gid, M) :-
-	Mnext is M - 1,
-	bf_explore(Gid),
-	bf_loop(Gid, Mnext).
-
-bf_explore(Gid) :-
-	g_vertices(Gid, Vertices),
-	bf_explore(Gid, Vertices).
-
-bf_explore(_, []) :- !.
-bf_explore(Gid, [Vertex|Rest]) :-
-	bf_visited(Gid, Vertex),
-	bf_update(Gid, Vertex),
-	bf_explore(Gid, Rest),
-	!.
-bf_explore(Gid, [_|Rest]) :-
-	bf_explore(Gid, Rest).
-
-bf_update(Gid, Vertex) :-
-	findall(Vertex->To/Cost,
-	(
-		g_edges(Gid, E),
-		member(Vertex->To/Cost, E)
-	), Adjacent),
-	bf_update_path(Gid, Vertex, Adjacent).
-
-bf_update_path(_, _, []) :- !.
-bf_update_path(Gid, From, [From->To/Cost|Rest]) :-
-	bf_shortest(Gid, _->To/TCost),
-	bf_shortest(Gid, _->From/FCost),
-	PCost is FCost + Cost,
-	bf_update_record(Gid, From->To, TCost, PCost),
-	bf_update_path(Gid, From, Rest),
-	!.
-bf_update_path(Gid, From, [From->To/Cost|Rest]) :-
-	bf_shortest(Gid, _->From/FCost),
-	PCost is FCost + Cost,
-	bf_set_shortest(Gid, From->To/PCost),
-	bf_update_path(Gid, From, Rest).
-
-bf_update_record(_, _, OldCost, NewCost) :-
-	OldCost =< NewCost,
-	!.
-bf_update_record(Gid, From->To, OldCost, NewCost) :-
-	NewCost < OldCost,
-	bf_set_shortest(Gid, From->To/NewCost).
-
-bf_path_summary(Gid, Start, Stop, Cost, Path) :-
-	bf_shortest(Gid, _->Stop/Cost),
-	bf_assemble_path(Gid, Start, [Stop], Path).
-
-bf_assemble_path(_, Start, [Start|RAcc], [Start|RAcc]) :- !.
-bf_assemble_path(Gid, Start, Acc, Path) :-
-	[To|_] = Acc,
-	bf_shortest(Gid, From->To/_),
-	bf_assemble_path(Gid, Start, [From|Acc], Path).
