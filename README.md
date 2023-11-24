@@ -44,6 +44,6 @@ Follow the instructions in the application:
 - `my_prolog.py` : This file is a bridge between prolog and python files
 - `pageReject.py` : This file is the page that shows the user that the docuement has been rejected and the reason of it.
 - `reachedPage.py` : This file is the page that shows the user that the package is delivered. 
-- `returnPackagePage.py` : This file is the page that displays the return path when package get reject
+- `returnPackagePage.py` : This file is the page that displays the return path when the package is being rejected.
 - `StartPage.py` : This file is the start page of the program.
 
