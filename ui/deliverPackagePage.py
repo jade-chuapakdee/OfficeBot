@@ -245,9 +245,7 @@ class DeliverPackage(tk.Frame):
         label2 = tk.Label(self, text= label2_text,bg='#E5D0CC',fg="#444554" , font=('Ubuntu',14))
         label2.place(x = 755, y = 200)
         
-        label3_text = "Tray number: " + self.master.shared_tray.get()
-        label3 = tk.Label(self, text= label3_text,bg='#E5D0CC',fg="#444554" , font=('Ubuntu',14))
-        label3.place(x = 755, y = 250)
+        
         
 
 if __name__ == "__main__":
