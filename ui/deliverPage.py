@@ -11,6 +11,17 @@ class DeliverPage(tk.Frame):
         self.canvas = tk.Canvas(self, width=800, height=320)
         self.canvas.pack()
         self.canvas.place(x=50, y=120)
+        
+                
+        path = master.shared_path.get()
+
+        # Remove unnecessary characters and split the string into pairs
+        temp_coordinates = path.replace("('", "").replace("')", "").split("', '")
+        temp_coordinates = [coor[1::] for coor in temp_coordinates]
+        # Convert each pair into a list of integers
+        coordinates = [list(map(int, coor.strip('()').split(', '))) for coor in temp_coordinates]
+
+
 
         def on_click_next():
             master.switch_frame("ReachedPage")
@@ -20,18 +31,19 @@ class DeliverPage(tk.Frame):
                 x, y = path
                 if i == 0:
                     # Draw the first path in a different color (e.g., blue)
-                    draw_path(x, y, color="blue")
+                    draw_path_with_delay(x, y, color="blue", delay=i * 200)
                 elif i == len(paths) - 1:
                     # Draw the last path in a different color (e.g., red)
-                    draw_path(x, y, color="blue")
+                    draw_path_with_delay(x, y, color="blue", delay=i * 200)
                 else:
                     # Draw other paths in the default color
-                    draw_path(x, y, color="green")
-            
+                    draw_path_with_delay(x, y, color="green", delay=i * 200)
+
+        def draw_path_with_delay(x, y, color, delay):
+            self.after(delay, lambda: draw_path(x, y, color))
+
         def draw_path(x,y, color):
             self.canvas.itemconfig(f"t_{x}_{y}", fill=color)
-            
-        
         
         
         def draw_obsatcle(x,y):
@@ -129,16 +141,10 @@ class DeliverPage(tk.Frame):
         draw_obsatcle(7,2)
         draw_obsatcle(9,4)
         
-        paths_array = [[1, 0], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [9, 1]]
-
-    
-        draw_paths(paths_array)
         
         self.obstacle = ["2,0","2,2","2,4","2,5","4,3","6,1","6,2","6,4","7,2","9,4"]
         master.shared_ob.set(self.obstacle)
         
-        
-               
         #text in cells
         self.canvas.create_text(360, 140, text="C", font=("Helvetica", 16), fill="black")
         self.canvas.create_text(40, 140, text="B", font=("Helvetica", 16), fill="black")
@@ -148,7 +154,9 @@ class DeliverPage(tk.Frame):
         self.canvas.create_text(750, 90, text="F", font=("Helvetica", 16), fill="black")
         self.canvas.create_text(750, 190, text="G", font=("Helvetica", 16), fill="black")
         
-        
+        # draw path from source to the destination
+        draw_paths(coordinates)
+
     def create_top_text_label(self):
         label_top_text = "Package is on the way"
         label_top = tk.Label(self.top_frame, text=label_top_text, bg='#7F7B82', fg="#FFFFFF",

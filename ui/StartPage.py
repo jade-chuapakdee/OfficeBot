@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image, ImageTk
-
+import my_prolog
 
 class StartPage(tk.Frame):
     def __init__(self, master):
@@ -58,6 +58,21 @@ class StartPage(tk.Frame):
                 master.shared_from.set(sender_option.get())
                 src = master.shared_from.get().lower()
                 des = master.shared_destination.get().lower()
+                
+                room_dict = {
+                    "a": "(0,0)",
+                    "b": "(0,2)",
+                    "c": "(4,2)",
+                    "d": "(0,4)",
+                    "e": "(4,5)",
+                    "f": "(9,1)",
+                    "g": "(9,3)",
+                }
+
+                print("Source:", room_dict[src], "Destination:", room_dict[des])
+                prolog = my_prolog.MyProlog()
+                path = prolog.getPathDetails(room_dict[src], room_dict[des])
+                master.shared_path.set(path)
                 master.switch_frame("DeliverPage")
 
             
