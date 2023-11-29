@@ -32,8 +32,6 @@ class HistoryPage(tk.Frame):
         time_label = tk.Label(self, text="Time", bg='#E5D0CC', fg="#444554", font=("Ubuntu", 12, "bold"))
         time_label.place(x=635, y=120)
         
-        status_label = tk.Label(self, text="Status", bg='#E5D0CC', fg="#444554", font=("Ubuntu", 12, "bold"))
-        status_label.place(x=800, y=120)
         ###
         
         file_manager = historyFileManger.HistoryFileManager()
@@ -62,8 +60,7 @@ class HistoryPage(tk.Frame):
             time = tk.Label(self, text=data[4], bg='#E5D0CC', fg="#444554", font=("Ubuntu", 10))
             time.place(x=635, y=150 + y_offset)
 
-            status = tk.Label(self, text=data[5], bg='#E5D0CC', fg="#444554", font=("Ubuntu", 10))
-            status.place(x=800, y=150 + y_offset)
+            
 
         back_button = tk.Button(self, text="Back", command=on_click_back, width=10, height=1,bg="#BFACB5", fg="#444554", font=("Ubuntu", 18, "bold"), border=2)
         

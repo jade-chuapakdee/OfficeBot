@@ -15,18 +15,31 @@ class DeliverPage(tk.Frame):
         def on_click_next():
             master.switch_frame("ReachedPage")
             
+        def draw_paths(paths):
+            for i, path in enumerate(paths):
+                x, y = path
+                if i == 0:
+                    # Draw the first path in a different color (e.g., blue)
+                    draw_path(x, y, color="blue")
+                elif i == len(paths) - 1:
+                    # Draw the last path in a different color (e.g., red)
+                    draw_path(x, y, color="blue")
+                else:
+                    # Draw other paths in the default color
+                    draw_path(x, y, color="green")
+            
+        def draw_path(x,y, color):
+            self.canvas.itemconfig(f"t_{x}_{y}", fill=color)
+            
+        
+        
+        
         def draw_obsatcle(x,y):
             self.canvas.itemconfig(f"t_{x}_{y}", fill="red")
-            self.canvas.itemconfig(f"b_{x}_{y}" , fill="red")
-            self.canvas.itemconfig(f"l_{x}_{y}", fill="red")
-            self.canvas.itemconfig(f"r_{x}_{y}", fill="red")
             
-            
+        
         def draw_cell(x1,y1,x2,y2,i,j):
-            self.canvas.create_line(x1, y1, x2, y2, fill="#7F7B82", width=2, tags=f"t_{i}_{j}")
-            self.canvas.create_line(x1, y1+52, x2, y2+52, fill="#7F7B82", width=2, tags=f"b_{i}_{j}")
-            self.canvas.create_line(x1, y1, x2-78, y2+52, fill="#7F7B82", width=2, tags=f"l_{i}_{j}")
-            self.canvas.create_line(x1+78, y1, x2, y2+52, fill="#7F7B82", width=2, tags=f"r_{i}_{j}")
+            self.canvas.create_rectangle(x1,y1,x1+78,y1+52, width=2, tags=f"t_{i}_{j}")
             
 
         self.top_frame = tk.Frame(bg="#7F7B82", width=900, height=100)
@@ -116,19 +129,24 @@ class DeliverPage(tk.Frame):
         draw_obsatcle(7,2)
         draw_obsatcle(9,4)
         
-        obasacle = ["2,0","2,2","2,4","2,5","4,3","6,1","6,2","6,4","7,2","9,4"]
-                
+        paths_array = [[1, 0], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [9, 1]]
+
+    
+        draw_paths(paths_array)
+        
+        self.obstacle = ["2,0","2,2","2,4","2,5","4,3","6,1","6,2","6,4","7,2","9,4"]
+        master.shared_ob.set(self.obstacle)
         
         
-        
+               
         #text in cells
-        self.canvas.create_text(360, 140, text="C", font=("Helvetica", 16), fill="blue")
-        self.canvas.create_text(40, 140, text="B", font=("Helvetica", 16), fill="blue")
-        self.canvas.create_text(40, 30, text="A", font=("Helvetica", 16), fill="blue")
-        self.canvas.create_text(40, 240, text="D", font=("Helvetica", 16), fill="blue")
-        self.canvas.create_text(360, 300, text="E", font=("Helvetica", 16), fill="blue")
-        self.canvas.create_text(750, 90, text="F", font=("Helvetica", 16), fill="blue")
-        self.canvas.create_text(750, 190, text="G", font=("Helvetica", 16), fill="blue")
+        self.canvas.create_text(360, 140, text="C", font=("Helvetica", 16), fill="black")
+        self.canvas.create_text(40, 140, text="B", font=("Helvetica", 16), fill="black")
+        self.canvas.create_text(40, 30, text="A", font=("Helvetica", 16), fill="black")
+        self.canvas.create_text(40, 240, text="D", font=("Helvetica", 16), fill="black")
+        self.canvas.create_text(360, 300, text="E", font=("Helvetica", 16), fill="black")
+        self.canvas.create_text(750, 90, text="F", font=("Helvetica", 16), fill="black")
+        self.canvas.create_text(750, 190, text="G", font=("Helvetica", 16), fill="black")
         
         
     def create_top_text_label(self):

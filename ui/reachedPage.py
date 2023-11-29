@@ -19,7 +19,6 @@ class Reached(tk.Frame):
 
         def on_click_accept():
             status = "Accepted"
-            file_manager.save_history(path, cost, status)
             master.switch_frame("StartPage")
 
         

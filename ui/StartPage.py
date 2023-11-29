@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-import my_prolog 
 from PIL import Image, ImageTk
 
 
@@ -59,10 +58,6 @@ class StartPage(tk.Frame):
                 master.shared_from.set(sender_option.get())
                 src = master.shared_from.get().lower()
                 des = master.shared_destination.get().lower()
-                prolog = my_prolog.MyProlog()
-                path = prolog.getPathDetails(src, des)
-                master.shared_path.set(value = path['Path'])
-                master.shared_cost.set(value = path['Cost'])
                 master.switch_frame("DeliverPage")
 
             
@@ -97,8 +92,8 @@ class StartPage(tk.Frame):
 
             
         #list of options
-        destination_list = ["Please enter your destination","A1","A2","A3","A4","A5","B1","B2"]
-        sender_seat_list = ["Please enter your seat number","A1","A2","A3","A4","A5","B1","B2"]
+        destination_list = ["Please enter your destination","A","B","C","D","E","F","G"]
+        sender_seat_list = ["Please enter your seat number","A","B","C","D","E","F","G"]
         
         #variable to store selected option
         destination_option = tk.StringVar(self)
