@@ -1,10 +1,18 @@
-from pyswip import Prolog
+import pyswip
 
 class MyProlog:
     def __init__(self) -> None:
-        self._prolog = Prolog()
-        self._prolog.consult('prolog/my_bellman.pl') # This is for the production        
+        self.prolog = pyswip.Prolog()
+        self.prolog.consult('prolog/my_astar.pl')
     
     def getPathDetails(self, src, des):
-        result = list(self._prolog.query(f'bellman_ford(1, {src}, {des}, Cost, Path)'))[0]
-        return result
+        result = list(self.prolog.query(f'my_astar({src},{des},Path)'))
+        return result[0]['Path']
+
+if __name__ == '__main__':
+    """
+    To test the pyswip is working fine
+    """
+    prolog = MyProlog()
+    result = prolog.getPathDetails('(9,1)','(0,2)')
+    print(result)

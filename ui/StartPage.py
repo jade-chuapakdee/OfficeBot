@@ -1,9 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-import my_prolog 
 from PIL import Image, ImageTk
-
+import my_prolog
 
 class StartPage(tk.Frame):
     def __init__(self, master):
@@ -37,12 +36,12 @@ class StartPage(tk.Frame):
         # Variables for comboboxes
         destination_option = tk.StringVar(self)
         sender_option = tk.StringVar(self)
-        tray_option = tk.StringVar(self)
+        
 
         # Set default options
         destination_option.set("Please enter your destination")
         sender_option.set("Please enter your seat number")
-        tray_option.set("Select empty tray")
+        
 
     
         def confirm_button_click():
@@ -50,7 +49,6 @@ class StartPage(tk.Frame):
             if (
                 destination_option.get() == "Please enter your destination"
                 or sender_option.get() == "Please enter your seat number"
-                or tray_option.get() == "Select empty tray"
             ):
                 messagebox.showwarning("Warning", "Please select all options")
             elif destination_option.get() == sender_option.get():
@@ -58,13 +56,23 @@ class StartPage(tk.Frame):
             else:
                 master.shared_destination.set(destination_option.get())
                 master.shared_from.set(sender_option.get())
-                master.shared_tray.set(tray_option.get())
                 src = master.shared_from.get().lower()
                 des = master.shared_destination.get().lower()
+                
+                room_dict = {
+                    "a": "(0,0)",
+                    "b": "(0,2)",
+                    "c": "(4,2)",
+                    "d": "(0,4)",
+                    "e": "(4,5)",
+                    "f": "(9,1)",
+                    "g": "(9,3)",
+                }
+
+                print("Source:", room_dict[src], "Destination:", room_dict[des])
                 prolog = my_prolog.MyProlog()
-                path = prolog.getPathDetails(src, des)
-                master.shared_path.set(value = path['Path'])
-                master.shared_cost.set(value = path['Cost'])
+                path = prolog.getPathDetails(room_dict[src], room_dict[des])
+                master.shared_path.set(path)
                 master.switch_frame("DeliverPage")
 
             
@@ -74,7 +82,6 @@ class StartPage(tk.Frame):
             # Reset combobox options
             destination_option.set(destination_list[0])
             sender_option.set(sender_seat_list[0])
-            tray_option.set(tray_number_list[0])
             
         def history_button_click():
             master.switch_frame("HistoryPage")
@@ -98,29 +105,19 @@ class StartPage(tk.Frame):
 
         label2.place(x = 177, y = 235)
 
-        #label3
-        label3_text = "Tray number"
-
-        label3 = tk.Label(self, text= label3_text,bg='#E5D0CC' ,fg="#444554" , font=('Ubuntu',22, "bold"))
-
-        label3.place(x = 177, y = 296)    
-        
             
         #list of options
-        destination_list = ["Please enter your destination","A1","A2","A3","A4","A5","B1","B2","B3","B4","B5","C1","C2","C3","C4","C5"]
-        sender_seat_list = ["Please enter your seat number","A1","A2","A3","A4","A5","B1","B2","B3","B4","B5","C1","C2","C3","C4","C5"]
-        tray_number_list = ["Select empty tray","1","2","3","4","5"]
+        destination_list = ["Please enter your destination","A","B","C","D","E","F","G"]
+        sender_seat_list = ["Please enter your seat number","A","B","C","D","E","F","G"]
         
         #variable to store selected option
         destination_option = tk.StringVar(self)
-        sender_option = tk.StringVar(self)
-        tray_option = tk.StringVar(self)    
+        sender_option = tk.StringVar(self)    
             
             
         #set default option
         destination_option.set(destination_list[0])
-        sender_option.set(sender_seat_list[0])
-        tray_option.set(tray_number_list[0])    
+        sender_option.set(sender_seat_list[0])    
             
         #combobox
         destination_menu = ttk.Combobox(self, textvariable = destination_option, values = destination_list, width = 30)
@@ -134,13 +131,6 @@ class StartPage(tk.Frame):
         sender_menu.pack(pady=10)
         sender_menu.place(x = 420, y = 237)
         sender_menu.config(font=('Ubuntu', 12),foreground="#444554")
-
-        
-        tray_menu = ttk.Combobox(self, textvariable = tray_option, values = tray_number_list, width = 30)
-        tray_menu.pack(pady=10)
-        tray_menu.place(x = 420, y = 298)
-
-        tray_menu.config(font=('Ubuntu', 12),foreground="#444554")
         
         self.history_icon_path = "ui/image/history_icon.png"
         self.history_icon = Image.open(self.history_icon_path)
