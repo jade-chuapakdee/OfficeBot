@@ -15,10 +15,11 @@ class Reached(tk.Frame):
 
         file_manager = historyFileManger.HistoryFileManager()
         path = master.shared_path.get()
-        cost = master.shared_cost.get()
+        src = master.shared_from.get()
+        des = master.shared_destination.get()
 
         def on_click_accept():
-            status = "Accepted"
+            file_manager.save_history(src, des, path)
             master.switch_frame("StartPage")
 
         

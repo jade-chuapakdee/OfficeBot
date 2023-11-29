@@ -10,6 +10,9 @@ class MyProlog:
         return result[0]['Path']
 
 if __name__ == '__main__':
-    lmao = MyProlog()
-    temp = lmao.getPathDetails('(9,1)','(0,2)')
-    print(temp)
+    """
+    To test the pyswip is working fine
+    """
+    prolog = MyProlog()
+    result = prolog.getPathDetails('(9,1)','(0,2)')
+    print(result)

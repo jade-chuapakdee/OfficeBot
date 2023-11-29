@@ -11,17 +11,6 @@ class DeliverPage(tk.Frame):
         self.canvas = tk.Canvas(self, width=800, height=320)
         self.canvas.pack()
         self.canvas.place(x=50, y=120)
-        
-                
-        path = master.shared_path.get()
-
-        # Remove unnecessary characters and split the string into pairs
-        temp_coordinates = path.replace("('", "").replace("')", "").split("', '")
-        temp_coordinates = [coor[1::] for coor in temp_coordinates]
-        # Convert each pair into a list of integers
-        coordinates = [list(map(int, coor.strip('()').split(', '))) for coor in temp_coordinates]
-
-
 
         def on_click_next():
             master.switch_frame("ReachedPage")
@@ -46,19 +35,19 @@ class DeliverPage(tk.Frame):
             self.canvas.itemconfig(f"t_{x}_{y}", fill=color)
             
         def draw_wall(x1,y1,x2,y2):
-            self.canvas.create_line(x1,y1,x2,y2, width=3, fill="red" )
-            self.canvas.create_line(x1,y1+52,x2,y2+52, width=3, fill="red" )
-            self.canvas.create_line(x1,y1,x2-78,y2+52, width=3, fill="red" )
+            self.canvas.create_line(x1,y1,x2,y2, width=5, fill="red" )
+            self.canvas.create_line(x1,y1+52,x2,y2+52, width=5, fill="red" )
+            self.canvas.create_line(x1,y1,x2-78,y2+52, width=5, fill="red" )
         
         def draw_wall2(x1,y1,x2,y2):
-            self.canvas.create_line(x1,y1+52,x2,y2+52, width=3, fill="red" )
-            self.canvas.create_line(x1,y1,x2-78,y2+52, width=3, fill="red" )
-            self.canvas.create_line(x1+78,y1,x2,y2+52, width=3, fill="red" )
+            self.canvas.create_line(x1,y1+52,x2,y2+52, width=5, fill="red" )
+            self.canvas.create_line(x1,y1,x2-78,y2+52, width=5, fill="red" )
+            self.canvas.create_line(x1+78,y1,x2,y2+52, width=5, fill="red" )
             
         def draw_wall3(x1,y1,x2,y2):
-            self.canvas.create_line(x1,y1,x2,y2, width=3, fill="red" )
-            self.canvas.create_line(x1,y1+52,x2,y2+52, width=3, fill="red" )
-            self.canvas.create_line(x1+78,y1,x2,y2+52, width=3, fill="red" )
+            self.canvas.create_line(x1,y1,x2,y2, width=5, fill="red" )
+            self.canvas.create_line(x1,y1+52,x2,y2+52, width=5, fill="red" )
+            self.canvas.create_line(x1+78,y1,x2,y2+52, width=5, fill="red" )
             
         
         
@@ -167,11 +156,6 @@ class DeliverPage(tk.Frame):
         draw_wall3(715,60,793,60)
         draw_wall3(715,164,793,164)
         
-        # paths_array = [[1, 0], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [9, 1]]
-
-    
-        # draw_paths(paths_array)
-        
         self.obstacle = ["2,0","2,2","2,4","2,5","4,3","6,1","6,2","6,4","7,2","9,4"]
         master.shared_ob.set(self.obstacle)
         
@@ -185,6 +169,10 @@ class DeliverPage(tk.Frame):
         self.canvas.create_text(750, 190, text="G", font=("Helvetica", 16), fill="black")
         
         # draw path from source to the destination
+        path = master.shared_path.get()
+        temp_coordinates = path.replace("('", "").replace("')", "").split("', '")
+        temp_coordinates = [coor[1::] for coor in temp_coordinates]
+        coordinates = [list(map(int, coor.strip('()').split(', '))) for coor in temp_coordinates]
         draw_paths(coordinates)
 
     def create_top_text_label(self):

@@ -1,6 +1,6 @@
 :- dynamic(add_to_visited/2).
 :- dynamic(branch_from/2).
-:- dynamic(connected_block/2).
+:- dynamic(linking/2).
 :- dynamic(obstacle/1).
  
 
@@ -16,7 +16,7 @@ my_astar(Source, Destination, Path):-
 
 	% create the starting point of the pathfinding
 	assertz(branch_from(Source,Source)),
-	get_heuristic(Source,Destination,Cost),
+	heuristic_value(Source,Destination,Cost),
 	assertz(add_to_visited(Source,Cost)),
 	a_star_recursive(Source,Destination,heap(nil,0),Path).
 
@@ -43,37 +43,40 @@ a_star_recursive(Vertex,Destination,Frontier,Path):-
 	% add that neighbor to the visited list
 	assertz(add_to_visited(NextVertex,Fn)),
 
-	a_star_recursive(NextVertex,Destination,RestFrontier,[H|T]),
-	branch_from(H,Parent),
+	a_star_recursive(NextVertex,Destination,RestFrontier,[Head|Tail]),
+	branch_from(Head,Parent),
 	%append to pathlist if not in pathlist
-	(H = Parent ->
-		append([],[H|T],Path)
+	(Head = Parent ->
+		append([],[Head|Tail],Path)
 		;
-		append([Parent],[H|T],Path), !
+		append([Parent],[Head|Tail],Path), !
 		).
 
 
 
 add_to_frontier([],_,_,_,Frontier,Frontier).
 
-add_to_frontier([H|T],CurrentVertex,AccumulatedCost,Destination,Frontier,UpdatedFrontier):-
+add_to_frontier([Head|Tail],CurrentVertex,AccumulatedCost,Destination,Frontier,UpdatedFrontier):-
+
 	% get g(n) of the current neighbor node from the source
-	get_heuristic(CurrentVertex,Destination,CurrentHeuristic),
+	heuristic_value(CurrentVertex,Destination,CurrentHeuristic),
 	NeighborAccumulatedCost is AccumulatedCost - CurrentHeuristic + 1,
 
-	% get Heuristic of the current neighbor node 
-	get_heuristic(H,Destination,HeadHeuristic),
+	% get h(n) of the current neighbor node 
+	heuristic_value(Head,Destination,HeadHeuristic),
  
-	% Check current neighbor node if is in visited list
-	(add_to_visited(H,HeadFn)->
+	% check if the current neighbor is in the visited list
+	(add_to_visited(Head,HeadFn)->
 
 		Visited_AccumulatedCost is HeadFn - HeadHeuristic,
-		%check if current neighbor node g cost < already in visited list node g cost
+
+		% check if the current neighbor's g(n) < g(n) in the visited list or not
 		(NeighborAccumulatedCost < Visited_AccumulatedCost ->
-			%remove the node from the visited list
-			retract(add_to_visited(H,HeadFn)),
-			branch_from(H,H_From),
-			retract(branch_from(H,H_From))
+
+			%remove that neighbor from the visited list
+			retract(add_to_visited(Head,HeadFn)),
+			branch_from(Head,H_Parent),
+			retract(branch_from(Head,H_Parent))
 			;
 			true
 			)
@@ -82,13 +85,15 @@ add_to_frontier([H|T],CurrentVertex,AccumulatedCost,Destination,Frontier,Updated
 
 	),
 
-	%Check current neighbor node if is in Frontier
-	(delete_from_heap(Frontier,Another_Head_Fn,H,DeletedHeap) ->
+	% check if the current neighbor is in Frontier
+	(delete_from_heap(Frontier,Another_Head_Fn,Head,DeletedHeap) ->
+
 			FrontierAccumulatedCost is Another_Head_Fn - HeadHeuristic,
-			%check if current neighbor node g cost < already in frontier node g cost
+
+			% check if the current neighbor's g(n) < g(n) in Frontier
 			(NeighborAccumulatedCost < FrontierAccumulatedCost ->
-				branch_from(H,Another_H_From),
-				retract(branch_from(H,Another_H_From))
+				branch_from(Head,Another_H_Parent),
+				retract(branch_from(Head,Another_H_Parent))
 				;
 				true
 				)
@@ -99,175 +104,157 @@ add_to_frontier([H|T],CurrentVertex,AccumulatedCost,Destination,Frontier,Updated
 
 
 	% add to Frontier if the above conditions weren't satistied
-	(add_to_visited(H,HeadFn) ->
+	(add_to_visited(Head,HeadFn) ->
 		merge_heaps(heap(nil,0),DeletedHeap,RestFrontier)
 		;
-		(delete_from_heap(DeletedHeap,Another_Head_Fn,H,_) ->
+		(delete_from_heap(DeletedHeap,Another_Head_Fn,Head,_) ->
 			merge_heaps(heap(nil,0),DeletedHeap,RestFrontier)
 			;
 			CurrentNeigbor_TotalCost is NeighborAccumulatedCost + HeadHeuristic,
-			add_to_heap(DeletedHeap,CurrentNeigbor_TotalCost,H,RestFrontier),
-			assertz(branch_from(H,CurrentVertex))
+			add_to_heap(DeletedHeap,CurrentNeigbor_TotalCost,Head,RestFrontier),
+			assertz(branch_from(Head,CurrentVertex))
 			)
 		),
 
-	add_to_frontier(T,CurrentVertex,AccumulatedCost,Destination,RestFrontier,UpdatedFrontier).
+	add_to_frontier(Tail,CurrentVertex,AccumulatedCost,Destination,RestFrontier,UpdatedFrontier).
 
 
-get_heuristic(Vertex,Destination,Heuristic):-
-	get_coordinate(Vertex,X1,Y1),
-	get_coordinate(Destination,X2,Y2),
+heuristic_value(Vertex,Destination,Heuristic):-
+	get_XY(Vertex,X1,Y1),
+	get_XY(Destination,X2,Y2),
 	abs(X2-X1,DX),
 	abs(Y2-Y1,DY),
 	Heuristic is (DX + DY) * 1.
 
 all_neighbors(Vertex,Neighbors):-
-	findall(Neighbor,connected_block(Vertex,Neighbor),Neighbors).
+	findall(Neighbor,linking(Vertex,Neighbor),Neighbors).
     
 
-get_coordinate((X,Y), X,Y).
+get_XY((X,Y), X,Y).
 
 
-connected_block((0,0),(0, 1)).
-connected_block((0,0),(1, 0)).
-connected_block((1,0),(1, 1)).
-connected_block((1,0),(0, 0)).
-connected_block((3,0),(3, 1)).
-connected_block((3,0),(4, 0)).
-connected_block((4,0),(4, 1)).
-connected_block((4,0),(3, 0)).
-connected_block((4,0),(5, 0)).
-connected_block((5,0),(5, 1)).
-connected_block((5,0),(4, 0)).
-connected_block((5,0),(6, 0)).
-connected_block((6,0),(5, 0)).
-connected_block((6,0),(7, 0)).
-connected_block((7,0),(7, 1)).
-connected_block((7,0),(6, 0)).
-connected_block((7,0),(8, 0)).
-connected_block((8,0),(8, 1)).
-connected_block((8,0),(7, 0)).
-connected_block((8,0),(9, 0)).
-connected_block((9,0),(9, 1)).
-connected_block((9,0),(8, 0)).
-connected_block((0,1),(0, 0)).
-connected_block((0,1),(0, 2)).
-connected_block((0,1),(1, 1)).
-connected_block((1,1),(1, 0)).
-connected_block((1,1),(1, 2)).
-connected_block((1,1),(0, 1)).
-connected_block((1,1),(2, 1)).
-connected_block((2,1),(1, 1)).
-connected_block((2,1),(3, 1)).
-connected_block((3,1),(3, 0)).
-connected_block((3,1),(3, 2)).
-connected_block((3,1),(2, 1)).
-connected_block((3,1),(4, 1)).
-connected_block((4,1),(4, 0)).
-connected_block((4,1),(4, 2)).
-connected_block((4,1),(3, 1)).
-connected_block((4,1),(5, 1)).
-connected_block((5,1),(5, 0)).
-connected_block((5,1),(5, 2)).
-connected_block((5,1),(4, 1)).
-connected_block((7,1),(7, 0)).
-connected_block((7,1),(8, 1)).
-connected_block((8,1),(8, 0)).
-connected_block((8,1),(8, 2)).
-connected_block((8,1),(7, 1)).
-connected_block((8,1),(9, 1)).
-connected_block((9,1),(9, 0)).
-connected_block((9,1),(9, 2)).
-connected_block((9,1),(8, 1)).
-connected_block((0,2),(0, 1)).
-connected_block((0,2),(0, 3)).
-connected_block((0,2),(1, 2)).
-connected_block((1,2),(1, 1)).
-connected_block((1,2),(1, 3)).
-connected_block((1,2),(0, 2)).
-connected_block((3,2),(3, 1)).
-connected_block((3,2),(3, 3)).
-connected_block((3,2),(4, 2)).
-connected_block((4,2),(4, 1)).
-connected_block((4,2),(3, 2)).
-connected_block((4,2),(5, 2)).
-connected_block((5,2),(5, 1)).
-connected_block((5,2),(5, 3)).
-connected_block((5,2),(4, 2)).
-connected_block((8,2),(8, 1)).
-connected_block((8,2),(8, 3)).
-connected_block((8,2),(9, 2)).
-connected_block((9,2),(9, 1)).
-connected_block((9,2),(9, 3)).
-connected_block((9,2),(8, 2)).
-connected_block((0,3),(0, 2)).
-connected_block((0,3),(0, 4)).
-connected_block((0,3),(1, 3)).
-connected_block((1,3),(1, 2)).
-connected_block((1,3),(1, 4)).
-connected_block((1,3),(0, 3)).
-connected_block((1,3),(2, 3)).
-connected_block((2,3),(1, 3)).
-connected_block((2,3),(3, 3)).
-connected_block((3,3),(3, 2)).
-connected_block((3,3),(3, 4)).
-connected_block((3,3),(2, 3)).
-connected_block((5,3),(5, 2)).
-connected_block((5,3),(5, 4)).
-connected_block((5,3),(6, 3)).
-connected_block((6,3),(5, 3)).
-connected_block((6,3),(7, 3)).
-connected_block((7,3),(7, 4)).
-connected_block((7,3),(6, 3)).
-connected_block((7,3),(8, 3)).
-connected_block((8,3),(8, 2)).
-connected_block((8,3),(8, 4)).
-connected_block((8,3),(7, 3)).
-connected_block((8,3),(9, 3)).
-connected_block((9,3),(9, 2)).
-connected_block((9,3),(8, 3)).
-connected_block((0,4),(0, 3)).
-connected_block((0,4),(0, 5)).
-connected_block((0,4),(1, 4)).
-connected_block((1,4),(1, 3)).
-connected_block((1,4),(1, 5)).
-connected_block((1,4),(0, 4)).
-connected_block((3,4),(3, 3)).
-connected_block((3,4),(3, 5)).
-connected_block((3,4),(4, 4)).
-connected_block((4,4),(4, 5)).
-connected_block((4,4),(3, 4)).
-connected_block((4,4),(5, 4)).
-connected_block((5,4),(5, 3)).
-connected_block((5,4),(5, 5)).
-connected_block((5,4),(4, 4)).
-connected_block((7,4),(7, 3)).
-connected_block((7,4),(7, 5)).
-connected_block((7,4),(8, 4)).
-connected_block((8,4),(8, 3)).
-connected_block((8,4),(8, 5)).
-connected_block((8,4),(7, 4)).
-connected_block((0,5),(0, 4)).
-connected_block((0,5),(1, 5)).
-connected_block((1,5),(1, 4)).
-connected_block((1,5),(0, 5)).
-connected_block((3,5),(3, 4)).
-connected_block((3,5),(4, 5)).
-connected_block((4,5),(4, 4)).
-connected_block((4,5),(3, 5)).
-connected_block((4,5),(5, 5)).
-connected_block((5,5),(5, 4)).
-connected_block((5,5),(4, 5)).
-connected_block((5,5),(6, 5)).
-connected_block((6,5),(5, 5)).
-connected_block((6,5),(7, 5)).
-connected_block((7,5),(7, 4)).
-connected_block((7,5),(6, 5)).
-connected_block((7,5),(8, 5)).
-connected_block((8,5),(8, 4)).
-connected_block((8,5),(7, 5)).
-connected_block((8,5),(9, 5)).
-connected_block((9,5),(8, 5)).
+linking((0,0),(1, 0)).
+linking((1,0),(1, 1)).
+linking((1,0),(0, 0)).
+linking((3,0),(3, 1)).
+linking((3,0),(4, 0)).
+linking((4,0),(4, 1)).
+linking((4,0),(3, 0)).
+linking((4,0),(5, 0)).
+linking((5,0),(5, 1)).
+linking((5,0),(4, 0)).
+linking((5,0),(6, 0)).
+linking((6,0),(5, 0)).
+linking((6,0),(7, 0)).
+linking((7,0),(7, 1)).
+linking((7,0),(6, 0)).
+linking((7,0),(8, 0)).
+linking((8,0),(8, 1)).
+linking((8,0),(7, 0)).
+linking((8,0),(9, 0)).
+linking((9,0),(8, 0)).
+
+linking((0,1),(1, 1)).
+linking((1,1),(1, 0)).
+linking((1,1),(1, 2)).
+linking((1,1),(0, 1)).
+linking((1,1),(2, 1)).
+linking((2,1),(1, 1)).
+linking((2,1),(3, 1)).
+linking((3,1),(3, 0)).
+linking((3,1),(3, 2)).
+linking((3,1),(2, 1)).
+linking((3,1),(4, 1)).
+linking((4,1),(4, 0)).
+linking((4,1),(4, 2)).
+linking((4,1),(3, 1)).
+linking((4,1),(5, 1)).
+linking((5,1),(5, 0)).
+linking((5,1),(5, 2)).
+linking((5,1),(4, 1)).
+linking((7,1),(7, 0)).
+linking((7,1),(8, 1)).
+linking((8,1),(8, 0)).
+linking((8,1),(8, 2)).
+linking((8,1),(7, 1)).
+linking((8,1),(9, 1)).
+linking((9,1),(8, 1)).
+
+linking((0,2),(1, 2)).
+linking((1,2),(1, 1)).
+linking((1,2),(1, 3)).
+linking((1,2),(0, 2)).
+linking((3,2),(3, 1)).
+linking((3,2),(3, 3)).
+linking((4,2),(4, 1)).
+linking((5,2),(5, 1)).
+linking((5,2),(5, 3)).
+linking((8,2),(8, 1)).
+linking((8,2),(8, 3)).
+linking((8,2),(9, 2)).
+linking((9,2),(8, 2)).
+
+linking((0,3),(1, 3)).
+linking((1,3),(1, 2)).
+linking((1,3),(1, 4)).
+linking((1,3),(0, 3)).
+linking((1,3),(2, 3)).
+linking((2,3),(1, 3)).
+linking((2,3),(3, 3)).
+linking((3,3),(3, 2)).
+linking((3,3),(3, 4)).
+linking((3,3),(2, 3)).
+linking((5,3),(5, 2)).
+linking((5,3),(5, 4)).
+linking((5,3),(6, 3)).
+linking((6,3),(5, 3)).
+linking((6,3),(7, 3)).
+linking((7,3),(7, 4)).
+linking((7,3),(6, 3)).
+linking((7,3),(8, 3)).
+linking((8,3),(8, 2)).
+linking((8,3),(8, 4)).
+linking((8,3),(7, 3)).
+linking((8,3),(9, 3)).
+linking((9,3),(8, 3)).
+
+linking((0,4),(1, 4)).
+linking((1,4),(1, 3)).
+linking((1,4),(1, 5)).
+linking((1,4),(0, 4)).
+linking((3,4),(3, 3)).
+linking((3,4),(3, 5)).
+linking((3,4),(4, 4)).
+linking((4,4),(4, 5)).
+linking((4,4),(3, 4)).
+linking((4,4),(5, 4)).
+linking((5,4),(5, 3)).
+linking((5,4),(5, 5)).
+linking((5,4),(4, 4)).
+linking((7,4),(7, 3)).
+linking((7,4),(7, 5)).
+linking((7,4),(8, 4)).
+linking((8,4),(8, 3)).
+linking((8,4),(8, 5)).
+linking((8,4),(7, 4)).
+
+linking((0,5),(1, 5)).
+linking((1,5),(1, 4)).
+linking((1,5),(0, 5)).
+linking((3,5),(3, 4)).
+linking((4,5),(4, 4)).
+linking((5,5),(5, 4)).
+linking((5,5),(6, 5)).
+linking((6,5),(5, 5)).
+linking((6,5),(7, 5)).
+linking((7,5),(7, 4)).
+linking((7,5),(6, 5)).
+linking((7,5),(8, 5)).
+linking((8,5),(8, 4)).
+linking((8,5),(7, 5)).
+linking((8,5),(9, 5)).
+linking((9,5),(8, 5)).
+
 obstacle((2,0)).
 obstacle((6,1)).
 obstacle((2,2)).
