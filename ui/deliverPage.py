@@ -31,11 +31,25 @@ class DeliverPage(tk.Frame):
         def draw_path(x,y, color):
             self.canvas.itemconfig(f"t_{x}_{y}", fill=color)
             
+        def draw_wall(x1,y1,x2,y2):
+            self.canvas.create_line(x1,y1,x2,y2, width=3, fill="red" )
+            self.canvas.create_line(x1,y1+52,x2,y2+52, width=3, fill="red" )
+            self.canvas.create_line(x1,y1,x2-78,y2+52, width=3, fill="red" )
         
+        def draw_wall2(x1,y1,x2,y2):
+            self.canvas.create_line(x1,y1+52,x2,y2+52, width=3, fill="red" )
+            self.canvas.create_line(x1,y1,x2-78,y2+52, width=3, fill="red" )
+            self.canvas.create_line(x1+78,y1,x2,y2+52, width=3, fill="red" )
+            
+        def draw_wall3(x1,y1,x2,y2):
+            self.canvas.create_line(x1,y1,x2,y2, width=3, fill="red" )
+            self.canvas.create_line(x1,y1+52,x2,y2+52, width=3, fill="red" )
+            self.canvas.create_line(x1+78,y1,x2,y2+52, width=3, fill="red" )
+            
         
         
         def draw_obsatcle(x,y):
-            self.canvas.itemconfig(f"t_{x}_{y}", fill="red")
+            self.canvas.itemconfig(f"t_{x}_{y}", fill="purple")
             
         
         def draw_cell(x1,y1,i,j):
@@ -129,10 +143,20 @@ class DeliverPage(tk.Frame):
         draw_obsatcle(7,2)
         draw_obsatcle(9,4)
         
-        paths_array = [[1, 0], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [9, 1]]
+        draw_wall(5,5,83,5)
+        draw_wall(5,110,83,110)
+        draw_wall(5,216,83,216)
+        
+        draw_wall2(320,110,398,110)
+        draw_wall2(320,270,398,270)
+        
+        draw_wall3(715,60,793,60)
+        draw_wall3(715,164,793,164)
+        
+        # paths_array = [[1, 0], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [9, 1]]
 
     
-        draw_paths(paths_array)
+        # draw_paths(paths_array)
         
         self.obstacle = ["2,0","2,2","2,4","2,5","4,3","6,1","6,2","6,4","7,2","9,4"]
         master.shared_ob.set(self.obstacle)
