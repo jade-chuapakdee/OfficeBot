@@ -1,4 +1,4 @@
-import csv, ast
+import csv
 from datetime import datetime
 
 class HistoryFileManager:
@@ -7,28 +7,23 @@ class HistoryFileManager:
         self.MAX_READ = 8
         self.MAX_SAVE = 50
 
-    def save_history(self, path, cost, status):
+    def save_history(self, src, des, path):
         # Read existing data from the file
         existing_data = self.read_data(self.file_path)
-        path = list(ast.literal_eval(path))
+        temp_coordinates = path.replace("('", "").replace("')", "").split("', '")
+        temp_coordinates = [coor[1::] for coor in temp_coordinates]
+        path = [list(map(int, coor.strip('()').split(', '))) for coor in temp_coordinates]
         print("Path: ", path)
-        src = path[0]
-        des = path[-1]
         current_datetime = datetime.now()
         formatted_date = current_datetime.strftime('%d/%m/%Y - %H:%M')
 
-        new_row = [src, des, cost, path, formatted_date, status]
+        new_row = [src, des, path, formatted_date]
         
         # Append new data to existing data
         all_data = existing_data + [new_row]
 
         # Write all data back to the file
         self.write_data(self.file_path, all_data)
-
-        data_after_inserted = self.read_history()
-        # print("Data after inserted")
-        # for row in data_after_inserted:
-        #     print(row)
         print("You have added data")
         print(new_row)
 

@@ -1,19 +1,15 @@
 import tkinter as tk
 
 from StartPage import StartPage
-from deliverPackagePage import DeliverPackage
 from reachedPage import Reached
-from pageReject import PageReject
 from historyPage import HistoryPage
-from returnPackagePage import ReturnPage
+from deliverPage import DeliverPage
 
 pages = {
-    "StartPage": StartPage, 
-    "DeliverPage": DeliverPackage, 
+    "StartPage": StartPage,  
     "ReachedPage": Reached,
-    "PageReject": PageReject,
-    "HistoryPage": HistoryPage, 
-    "ReturnPage": ReturnPage
+    "HistoryPage": HistoryPage,
+    "DeliverPage": DeliverPage
 }
 
 class SampleApp(tk.Tk):
@@ -25,12 +21,13 @@ class SampleApp(tk.Tk):
         self._frame = None
         self.switch_frame("StartPage")
         
-        self.shared_reason = tk.StringVar()
+        self.shared_ob = tk.StringVar()
         self.shared_destination = tk.StringVar()
         self.shared_from = tk.StringVar()
         self.shared_cost = tk.StringVar()
-        self.shared_tray = tk.StringVar()
         self.shared_path = tk.StringVar()
+        
+        
 
     def switch_frame(self, page_name):
         """Destroys current frame and replaces it with a new one."""
