@@ -40,15 +40,13 @@ Follow the instructions in the application:
 
 ## Files
 
-- `deliverPackagePage.py` : This file is the page that shows the shortest path that the robot is taking.
+- `deliverPage.py` : This file is the page that shows the shortest path that the robot is taking.
 - `historyFileManager.py` : This files is the file that manages history files. 
 - `historyPage.py` : This file is the page that shows the history of the OffieBot.
 - `main.py` : This is the main file to run the file.
 - `my_prolog.py` : This file is a bridge between prolog and python files
-- `pageReject.py` : This file is the page that shows the user that the docuement has been rejected and the reason of it.
 - `reachedPage.py` : This file is the page that shows the user that the package is delivered. 
-- `returnPackagePage.py` : This file is the page that displays the return path when the package is being rejected.
 - `StartPage.py` : This file is the start page of the program.
 - `history.csv` : This file contains the history of the deliveries.
-- `my_bellman.pl` : This file contains the prolog logic for the Bellman-Ford algorithm.
+- `my_astar.pl` : This file contains the prolog logic for the A-Star algorithm.
 
